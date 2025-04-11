@@ -29,6 +29,10 @@ namespace JobInBar
         public bool ShowIdeoRole = true;
         public Color IdeoRoleColor = Color.white;
 
+        public LabelData()
+        {
+
+        }
         public LabelData(Pawn pawn)
         {
             this.pawn = pawn;

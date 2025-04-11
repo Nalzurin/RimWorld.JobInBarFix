@@ -15,7 +15,8 @@ namespace JobInBar
     public class LabelsTracker_WorldComponent : WorldComponent
     {
         private Dictionary<Pawn, LabelData> TrackedPawns = new();
-
+        private List<Pawn> pawns = new List<Pawn>();
+        private List<LabelData> data = new List<LabelData>();
         public static LabelsTracker_WorldComponent instance;
 
         public LabelData GetPawnLabelData(Pawn pawn)
@@ -79,7 +80,7 @@ namespace JobInBar
         {
             base.ExposeData();
 
-            Scribe_Collections.Look<Pawn, LabelData>(ref TrackedPawns, "TrackedPawns", LookMode.Reference, LookMode.Deep);
+            Scribe_Collections.Look<Pawn, LabelData>(ref TrackedPawns, "TrackedPawns", LookMode.Reference, LookMode.Deep, ref pawns, ref data);
         }
     }
 }
