@@ -2,7 +2,7 @@
 using Verse;
 using RimWorld;
 using UnityEngine;
-using DarkColourPicker_Forked;
+using ColourPicker;
 using DarkLog;
 
 namespace JobInBar
@@ -27,6 +27,8 @@ namespace JobInBar
         public static bool RoleColorOnlyIfAbilityAvailable = false;
 
         public static bool DrawRoyalTitles = true;
+
+        public static bool DoDebug = false;
 
         // Color
         [Obsolete("This was just a quick fix for an old bug. Going to be replaced by the new presets system.")]
@@ -184,6 +186,9 @@ namespace JobInBar
                 Settings.JobLabelVerticalOffset = (int)listing.Slider(Settings.JobLabelVerticalOffset, -150f, 150f);
                 listing.Label("JobInBar_Settings_Ydist".Translate() + Settings.ExtraOffsetPerLine);
                 Settings.ExtraOffsetPerLine = (int)listing.Slider(Settings.ExtraOffsetPerLine, -16f, 16f);
+
+                listing.CheckboxLabeled("JobInBar_Settings_DoDebugLogging".Translate(), ref DoDebug);
+
             }
 
             listing.End();
@@ -207,7 +212,7 @@ namespace JobInBar
             Scribe_Values.Look(ref RoleColorOnlyIfAbilityAvailable, "RoleColorOnlyIfAbilityAvailable", false);
             Scribe_Values.Look(ref DrawRoyalTitles, "DrawRoyalTitles", true);
             Scribe_Values.Look(ref DrawCurrentJob, "DrawCurrentJob", true);
-
+            Scribe_Values.Look(ref DoDebug, "DoDebug", false);
             Scribe_Values.Look(ref labelAlpha, "labelAlpha", 0.8f);
 
             Scribe_Values.Look(ref defaultJobLabelColor, "jobLabelColor", GenMapUI.DefaultThingLabelColor);

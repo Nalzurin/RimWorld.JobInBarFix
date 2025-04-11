@@ -17,12 +17,6 @@ namespace JobInBar
             LogPrefixed.modInst = this;
 
             GetSettings<Settings>();
-
-            Harmony harmony = new Harmony("Dark.JobInBar");
-
-            harmony.PatchAll();
-
-            LogPrefixed.Message("Patching complete");
         }
 
         public override void DoSettingsWindowContents(Rect inRect)

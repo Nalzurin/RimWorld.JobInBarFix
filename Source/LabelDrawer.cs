@@ -3,6 +3,8 @@ using Verse;
 using RimWorld;
 using UnityEngine;
 using HarmonyLib;
+using ColourPicker;
+using Verse.Noise;
 
 namespace JobInBar
 {
@@ -48,6 +50,7 @@ namespace JobInBar
 
         public static void DrawLabels(Pawn colonist, Vector2 pos, ColonistBar bar, Rect rect, float truncateToWidth = 9999f)
         {
+
             Vector2 lineOffset = new Vector2(0, Text.LineHeightOf(GameFont.Tiny) + Settings.ExtraOffsetPerLine); // 1.3+ only
 
             // Apply position offsets
@@ -56,17 +59,17 @@ namespace JobInBar
             {
                 if (colonist.GetShouldDrawJobLabel())
                 {
-                    DrawCustomLabel(pos, colonist.GetJobLabel(), colonist.GetJobLabelColorForPawn(), truncateToWidth);
+                    DrawCustomLabel(pos, colonist.GetJobLabel(), colonist.GetBackstoryLabelColor(), truncateToWidth);
                     pos += lineOffset;
                 }
                 if (colonist.GetShouldDrawRoyalTitleLabel())
                 {
-                    DrawCustomLabel(pos, colonist.GetRoyalTitleLabel(), LabelUtils.imperialColor, truncateToWidth);
+                    DrawCustomLabel(pos, colonist.GetRoyalTitleLabel(), colonist.GetRoyalTitleLabelColor(), truncateToWidth);
                     pos += lineOffset;
                 }
                 if (colonist.GetShouldDrawIdeoRoleLabel())
                 {
-                    DrawCustomLabel(pos, colonist.GetIdeoRoleLabel(), colonist.GetIdeoLabelColorForPawn(), truncateToWidth);
+                    DrawCustomLabel(pos, colonist.GetIdeoRoleLabel(), colonist.GetIdeoRoleLabelColor(), truncateToWidth);
                     pos += lineOffset;
                 }
             }
@@ -75,6 +78,7 @@ namespace JobInBar
                 DrawCustomLabel(pos, colonist.GetJobDescription(), Settings.currentJobLabelColor, truncate: false);
                 pos += lineOffset;
             }
+
         }
     }
 }

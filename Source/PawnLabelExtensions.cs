@@ -9,6 +9,7 @@ using Verse;
 using Verse.AI;
 using UnityEngine;
 using HarmonyLib;
+using DarkLog;
 
 namespace JobInBar
 {
@@ -27,23 +28,205 @@ namespace JobInBar
 
         public static bool GetShouldDrawJobLabel(this Pawn colonist)
         {
-            if (!Settings.DrawJobTitle)
+            if (colonist == null)
+            {
                 return false;
-
+            }
+            if (!Settings.DrawJobTitle)
+            {
+                return false;
+            }
+            if (LabelsTracker_WorldComponent.instance != null)
+            {
+                LabelData data = LabelsTracker_WorldComponent.instance.GetPawnLabelData(colonist);
+                return data.ShowBackstory;
+            }
             if (!Settings.OnlyDrawJobIfCustom)
+            {
                 return true;
-
+            }
             return colonist.story.title != null;
         }
 
-        public static bool GetShouldDrawIdeoRoleLabel(this Pawn colonist) => Settings.DrawIdeoRoles ? (colonist?.ideo?.Ideo?.GetRole(colonist) is Precept_Role role) : false;
+        public static bool GetShouldDrawIdeoRoleLabel(this Pawn colonist)
+        {
+            if (colonist == null)
+            {
+                return false;
+            }
+            if (!Settings.DrawIdeoRoles)
+            {
+                return false;
+            }
+            if (LabelsTracker_WorldComponent.instance != null)
+            {
+                LabelData data = LabelsTracker_WorldComponent.instance.GetPawnLabelData(colonist);
+                if (!data.ShowIdeoRole)
+                {
+                    return false;
+                }
 
-        public static bool GetShouldDrawRoyalTitleLabel(this Pawn colonist) => Settings.DrawRoyalTitles ? (colonist?.royalty?.MainTitle() is RoyalTitleDef) : false;
+                return colonist.ideo?.Ideo?.GetRole(colonist) is Precept_Role;
+            }
+            return false;
+        }
 
-        public static Color GetJobLabelColorForPawn(this Pawn pawn) => Settings.DefaultJobLabelColor;
+        public static bool GetShouldDrawRoyalTitleLabel(this Pawn colonist)
+        {
+            if (colonist == null)
+            {
+                return false;
+            }
+            if (!Settings.DrawRoyalTitles)
+            {
+                return false;
+            }
+            if (LabelsTracker_WorldComponent.instance != null)
+            {
+                LabelData data = LabelsTracker_WorldComponent.instance.GetPawnLabelData(colonist);
+                if (!data.ShowRoyalTitle)
+                {
+                    return false;
+                }
+
+                return colonist.royalty?.MainTitle() is RoyalTitleDef;
+            }
+            return false;
+        }
+
+        public static Color GetBackstoryLabelColor(this Pawn pawn)
+        {
+            if (pawn == null)
+            {
+                return Color.clear;
+            }
+            if (LabelsTracker_WorldComponent.instance == null)
+            {
+                return Settings.DefaultJobLabelColor;
+
+            }
+            LabelData data = LabelsTracker_WorldComponent.instance.GetPawnLabelData(pawn);
+            return data.BackstoryColor;
+
+        }
+        public static bool SetShouldDrawBackstoryLabel(this Pawn pawn, bool shouldDraw)
+        {
+            if (pawn == null)
+            {
+                return false;
+            }
+            if (LabelsTracker_WorldComponent.instance == null)
+            {
+                return false;
+            }
+            LabelData data = LabelsTracker_WorldComponent.instance.GetPawnLabelData(pawn);
+            data.ShowBackstory = shouldDraw;
+            return true;
+        }
+        public static bool SetBackstoryLabelColor(this Pawn pawn, Color newColor)
+        {
+            if (pawn == null)
+            {
+                return false;
+            }
+            if (LabelsTracker_WorldComponent.instance == null)
+            {
+                return false;
+            }
+            LabelData data = LabelsTracker_WorldComponent.instance.GetPawnLabelData(pawn);
+            data.BackstoryColor = newColor;
+            return true;
+        }
+        public static Color GetIdeoRoleLabelColor(this Pawn pawn)
+        {
+            if (pawn == null)
+            {
+                return Color.clear;
+            }
+            if (LabelsTracker_WorldComponent.instance == null)
+            {
+                return pawn.GetDefaultIdeoLabelColor();
+
+            }
+            LabelData data = LabelsTracker_WorldComponent.instance.GetPawnLabelData(pawn);
+            return data.IdeoRoleColor;
+
+        }
+        public static bool SetShouldDrawIdeoRoleLabel(this Pawn pawn, bool shouldDraw)
+        {
+            if (pawn == null)
+            {
+                return false;
+            }
+            if (LabelsTracker_WorldComponent.instance == null)
+            {
+                return false;
+            }
+            LabelData data = LabelsTracker_WorldComponent.instance.GetPawnLabelData(pawn);
+            data.ShowIdeoRole = shouldDraw;
+            return true;
+        }
+        public static bool SetIdeoRoleLabelColor(this Pawn pawn, Color newColor)
+        {
+            if (pawn == null)
+            {
+                return false;
+            }
+            if (LabelsTracker_WorldComponent.instance == null)
+            {
+                return false;
+            }
+            LabelData data = LabelsTracker_WorldComponent.instance.GetPawnLabelData(pawn);
+            data.IdeoRoleColor = newColor;
+            return true;
+
+        }
+        public static Color GetRoyalTitleLabelColor(this Pawn pawn)
+        {
+            if (pawn == null)
+            {
+                return Color.clear;
+            }
+            if (LabelsTracker_WorldComponent.instance == null)
+            {
+                return LabelUtils.imperialColor;
+
+            }
+            LabelData data = LabelsTracker_WorldComponent.instance.GetPawnLabelData(pawn);
+            return data.RoyalTitleColor;
+
+        }
+        public static bool SetShouldDrawRoyalTitleLabel(this Pawn pawn, bool shouldDraw)
+        {
+            if (pawn == null)
+            {
+                return false;
+            }
+            if (LabelsTracker_WorldComponent.instance == null)
+            {
+                return false;
+            }
+            LabelData data = LabelsTracker_WorldComponent.instance.GetPawnLabelData(pawn);
+            data.ShowRoyalTitle = shouldDraw;
+            return true;
+        }
+        public static bool SetRoyalTitleLabelColor(this Pawn pawn, Color newColor)
+        {
+            if (pawn == null)
+            {
+                return false;
+            }
+            if (LabelsTracker_WorldComponent.instance == null)
+            {
+                return false;
+            }
+            LabelData data = LabelsTracker_WorldComponent.instance.GetPawnLabelData(pawn);
+            data.RoyalTitleColor = newColor;
+            return true;
+        }
 
         // Looks up the pawn's ideology and returns the rgb color associated with that ideology, adjusting it for readability
-        public static Color GetIdeoLabelColorForPawn(this Pawn pawn)
+        public static Color GetDefaultIdeoLabelColor(this Pawn pawn)
         {
             if (Settings.UseIdeoColorForRole && pawn?.ideo?.Ideo?.GetRole(pawn) is Precept_Role role)
             {

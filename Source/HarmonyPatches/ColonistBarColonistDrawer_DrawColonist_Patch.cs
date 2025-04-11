@@ -3,6 +3,7 @@ using HarmonyLib;
 using Verse;
 using UnityEngine;
 using DarkLog;
+using ColourPicker;
 
 namespace JobInBar
 {
@@ -24,6 +25,7 @@ namespace JobInBar
             }
 
             LabelDrawer.DrawLabels(colonist, pos, bar, rect, rect.width + bar.SpaceBetweenColonistsHorizontal);
+
         }
     }
 }
