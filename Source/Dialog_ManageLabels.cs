@@ -69,7 +69,7 @@ namespace JobInBar
             Widgets.Label(royaltyLabelRect, "JobInBar_Dialog_ManageLabels_RoyaltyTitleLabel".Translate());
             Text.Anchor = TextAnchor.UpperLeft;
             bool shouldDrawRoyalty = pawn.GetShouldDrawRoyalTitleLabel();
-            Widgets.Checkbox(new Vector2(templateDoDrawRect.xMin + templateDoDrawRect.width / 2 - 12, royaltyLabelRect.yMin), ref shouldDrawRoyalty, disabled: pawn.royalty?.MainTitle() is not RoyalTitleDef);
+            Widgets.Checkbox(new Vector2(templateDoDrawRect.xMin + templateDoDrawRect.width / 2 - 12, royaltyLabelRect.yMin), ref shouldDrawRoyalty, disabled: pawn.royalty?.MainTitle() is null);
             pawn.SetShouldDrawRoyalTitleLabel(shouldDrawRoyalty);
             Color RoyaltyCol = pawn.GetRoyalTitleLabelColor();
             Rect RoyaltyColorRect = new Rect(templateDoColorRect.xMin + templateDoDrawRect.width / 2 - 18, royaltyLabelRect.yMin, 36f, rectHeight);
@@ -89,7 +89,7 @@ namespace JobInBar
             Widgets.Label(ideologyLabelRect, "JobInBar_Dialog_ManageLabels_IdeologyRoleLabel".Translate());
             Text.Anchor = TextAnchor.UpperLeft;
             bool shouldDrawIdeology = pawn.GetShouldDrawIdeoRoleLabel();
-            Widgets.Checkbox(new Vector2(templateDoDrawRect.xMin + templateDoDrawRect.width / 2 - 12, ideologyLabelRect.yMin), ref shouldDrawIdeology, disabled: pawn.ideo?.Ideo?.GetRole(pawn) is not Precept_Role);
+            Widgets.Checkbox(new Vector2(templateDoDrawRect.xMin + templateDoDrawRect.width / 2 - 12, ideologyLabelRect.yMin), ref shouldDrawIdeology, disabled: pawn.ideo?.Ideo?.GetRole(pawn) is null);
             pawn.SetShouldDrawIdeoRoleLabel(shouldDrawIdeology);
             Color ideologyCol = pawn.GetIdeoRoleLabelColor();
             Rect ideologyColorRect = new Rect(templateDoColorRect.xMin + templateDoDrawRect.width / 2 - 18, ideologyLabelRect.yMin, 36f, rectHeight);
